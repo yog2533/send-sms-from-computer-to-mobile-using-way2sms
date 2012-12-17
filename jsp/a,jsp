@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>One-Day Bus Pass Form</title>
+    </head>
+    <body>
+
+      
+
+    <%@ page import= "java.io.ByteArrayOutputStream" ; %>
+    <%@ page import= "java.io.InputStream" ;%>
+
+    
+<%                    
+String empid = request.getString("empID");
+String name = request.getString("name");
+String date = request.getString("date");
+String route = request.getString("route");
+String bpoint = request.getString("bpoint");
+String cont="";
+String content="";
+
+String username="9850257791";
+String password="password"; 
+
+String recipitant="phone";
+String message = "One day bus pass\nEmp ID: " + empid + "\n" + name + "\nValid: " + date + "\nRoute: " + route + "\nBoarding: " + bpoint;
+
+
+    String post_data = "username="+username +" &password="+ password+"&button=Login";
+    String url = "http://www.160by2.com/re-login";
+    Runtime r = Runtime.getRuntime(); 
+    String mycurl = "curl.exe -e "+url;
+    Process p = r.exec(mycurl); 
+    InputStream is = p.getInputStream(); 
+StringBuffer buf=new StringBuffer(); 
+ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); 
+int readByte = -1; 
+while ((readByte = is.read()) > -1) { 
+buf.append((char)readByte); 
+} 
+
+
+content = buf.toString(); 
+
+
+
+    if(content.equals("Unauthorized Login"))
+    {
+           cont="Invalid Username or Password";
+    }
+    
+    else
+    {
+
+    
+        String post_data1 = "hid_exists=no&action1=sa65sdf656fdfd&mobile1="+recipitant+"&msg1="+message+"&btnsendsms=Send Now";
+        url = "http://www.160by2.com/SendSMSAction"; 
+        mycurl = "curl.exe -e "+url; 
+
+
+        Process p1 = r.exec(mycurl); 
+        InputStream is1 = p1.getInputStream(); 
+	StringBuffer buf1=new StringBuffer(); 
+	ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream(); 
+	int readByte1 = -1; 
+	while ((readByte1 = is1.read()) > -1) { 
+	buf1.append((char)readByte1); 
+} 
+
+
+content = buf1.toString(); 
+
+
+
+        if(content.equals("Invalid Mobile number"))
+         {
+                  cont="Invalid Mobile Number or Message. Check the entered mobile no.";
+                }
+              else
+            {
+               System.out.println(content);
+               cont="Your One-Day Bus Pass has been SMSed to "+recipitant + ". Please show the same if asked when travelling.";
+            } 
+    }
+    
+    System.out.print(cont);
+    
+
+%>
+    </body>
+</html>
