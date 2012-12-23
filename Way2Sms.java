@@ -45,7 +45,7 @@ public class Way2Sms {
   URLConnector.disconnect();
  }
 
- private static void login(String uid, String pwd) {
+ public static void login(String uid, String pwd) {
   getSite();
   preHome();
 
@@ -96,7 +96,7 @@ public class Way2Sms {
   URLConnector.disconnect();
  }
 
- private static void sendSMS(String receiversMobNo, String msg) {
+ public static void sendSMS(String receiversMobNo, String msg) {
   getActionString();
 
   credentials.reset();
